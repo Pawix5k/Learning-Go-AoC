@@ -62,7 +62,22 @@ func calcDirSizes(node *Node, count int) (int, int) {
 	if size <= 100_000 {
 		curCount += size
 	}
+	node.size = size
 	return size, curCount
+}
+
+func findSmallestLargerOrEqualN(node *Node, n int, parentSize int) int {
+	if n > node.size {
+		return parentSize
+	}
+	curSmallest := parentSize
+	for _, child := range node.children {
+		if childSize := findSmallestLargerOrEqualN(child, n, node.size); childSize < curSmallest {
+			curSmallest = childSize
+		}
+	}
+
+	return curSmallest
 }
 
 func partA() {
@@ -77,6 +92,20 @@ func partA() {
 	fmt.Println(count)
 }
 
+func partB() {
+	utils.DownloadInput(7)
+	data, err := os.ReadFile(utils.GetFilePath(7))
+	if err != nil {
+		panic(err)
+	}
+	lines := strings.Split(string(data), "\n")
+	root := buildTree(lines)
+	size, _ := calcDirSizes(&root, 0)
+	needToFree := 30_000_000 - (70_000_000 - size)
+	fmt.Println(findSmallestLargerOrEqualN(&root, needToFree, size))
+}
+
 func main() {
 	partA()
+	partB()
 }

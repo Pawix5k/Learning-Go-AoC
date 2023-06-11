@@ -62,6 +62,68 @@ func partA() {
 	fmt.Println(count)
 }
 
+func partB() {
+	data, err := os.ReadFile(inputPath)
+	if err != nil {
+		panic(err)
+	}
+	lines := bytes.Split(bytes.TrimSpace(data), []byte("\n"))
+	length := len(lines)
+
+	max := 0
+
+	for i := 0; i < length; i++ {
+		for j := 0; j < length; j++ {
+			cur := lines[i][j]
+			visN, visS, visW, visE := 0, 0, 0, 0
+			scanN, scanS, scanW, scanE := true, true, true, true
+			vis := 1
+			for scanN || scanS || scanW || scanE {
+				if scanN && i-vis >= 0 && i-vis < length && j >= 0 && j < length {
+					visN++
+					if scan := lines[i-vis][j]; scan >= cur {
+						scanN = false
+					}
+				} else {
+					scanN = false
+				}
+				if scanS && i+vis >= 0 && i+vis < length && j >= 0 && j < length {
+					visS++
+					if scan := lines[i+vis][j]; scan >= cur {
+						scanS = false
+					}
+				} else {
+					scanS = false
+				}
+				if scanW && i >= 0 && i < length && j-vis >= 0 && j-vis < length {
+					visW++
+					if scan := lines[i][j-vis]; scan >= cur {
+						scanW = false
+					}
+				} else {
+					scanW = false
+				}
+				if scanE && i >= 0 && i < length && j+vis >= 0 && j+vis < length {
+					visE++
+					if scan := lines[i][j+vis]; scan >= cur {
+						scanE = false
+					}
+				} else {
+					scanE = false
+				}
+
+				vis++
+			}
+			if possMax := visN * visS * visW * visE; possMax > max {
+				max = possMax
+			}
+		}
+	}
+
+	fmt.Println(max)
+}
+
 func main() {
 	partA()
+	partB()
 }

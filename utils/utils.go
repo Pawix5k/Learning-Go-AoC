@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 )
 
 type Config struct {
@@ -76,6 +77,17 @@ func DownloadInput(day int) {
 		panic(err)
 	}
 	outputFile.Write(content)
+}
+
+func ReadInputStringLines(day int, sep string) []string {
+	DownloadInput(day)
+	data, err := os.ReadFile(GetFilePath(day))
+	if err != nil {
+		panic(err)
+	}
+	stripped := strings.TrimSpace(string(data))
+
+	return strings.Split(stripped, sep)
 }
 
 func IsLetter(ch byte) bool {

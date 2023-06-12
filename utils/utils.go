@@ -79,15 +79,18 @@ func DownloadInput(day int) {
 	outputFile.Write(content)
 }
 
-func ReadInputStringLines(day int, sep string) []string {
+func ReadInputString(day int) string {
 	DownloadInput(day)
 	data, err := os.ReadFile(GetFilePath(day))
 	if err != nil {
 		panic(err)
 	}
-	stripped := strings.TrimSpace(string(data))
+	return strings.TrimSpace(string(data))
+}
 
-	return strings.Split(stripped, sep)
+func ReadInputStringLines(day int, sep string) []string {
+	s := ReadInputString(day)
+	return strings.Split(s, sep)
 }
 
 func IsLetter(ch byte) bool {

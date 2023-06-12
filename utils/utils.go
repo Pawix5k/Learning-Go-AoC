@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -91,6 +92,20 @@ func ReadInputString(day int) string {
 func ReadInputStringLines(day int, sep string) []string {
 	s := ReadInputString(day)
 	return strings.Split(s, sep)
+}
+
+func ReadInputBytes(day int) []byte {
+	DownloadInput(day)
+	data, err := os.ReadFile(GetFilePath(day))
+	if err != nil {
+		panic(err)
+	}
+	return bytes.TrimSpace(data)
+}
+
+func ReadInputByteLines(day int, sep string) [][]byte {
+	s := ReadInputBytes(day)
+	return bytes.Split(s, []byte(sep))
 }
 
 func IsLetter(ch byte) bool {

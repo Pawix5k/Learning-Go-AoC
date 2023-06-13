@@ -15,20 +15,6 @@ type Node struct {
 	children []*Node
 }
 
-type Trees []*Node
-
-func (t Trees) Len() int {
-	return len(t)
-}
-
-func (t Trees) Swap(i, j int) {
-	t[i], t[j] = t[j], t[i]
-}
-
-func (t Trees) Less(i, j int) bool {
-	return compareTrees(*t[i], *t[j]) == 1
-}
-
 func parseString(s string) *Node {
 	dummyHead := &Node{}
 	cur := dummyHead

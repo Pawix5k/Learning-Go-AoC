@@ -121,3 +121,10 @@ func IsNumber(ch byte) bool {
 	}
 	return false
 }
+
+func Abs(x int) int {
+	if x >= 0 {
+		return x
+	}
+	return -x
+}

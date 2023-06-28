@@ -1,3 +1,4 @@
 input.txt
 config.json
 *.py
+.vscode
